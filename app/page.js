@@ -8,27 +8,74 @@ const SITE = {
   discord: "https://discord.gg/Ggv9NKJfP",
   telegram: "https://t.me/daryhevan",
   email: "jackkaffiliate@gmail.com",
-  register:
+};
+
+const OFFER = {
+  casino: "FORTUNEJACK",
+  casinoShort: "FJ",
+  promoCode: "JACKBETS",
+
+  registerUrl:
     "https://tracker-pm2.fortunejackpartners.com/link?btag=106784053_503805",
-  promo: "JACKBETS",
+
+  tiers: [
+    {
+      deposit: 50,
+      spins: 50,
+    },
+    {
+      deposit: 100,
+      spins: 100,
+    },
+  ],
 };
 
 const leaderboard = [
-  ["01", "J***99", "$12,450", "$250"],
-  ["02", "R***07", "$8,920", "$150"],
-  ["03", "M***21", "$6,580", "$100"],
-  ["04", "A***55", "$4,210", "$50"],
-  ["05", "K***88", "$3,760", "$25"],
+  {
+    username: "J***99",
+    wagered: 12450,
+    prize: 250,
+  },
+  {
+    username: "R***07",
+    wagered: 8920,
+    prize: 150,
+  },
+  {
+    username: "M***21",
+    wagered: 6580,
+    prize: 100,
+  },
+  {
+    username: "A***55",
+    wagered: 4210,
+    prize: 50,
+  },
+  {
+    username: "K***88",
+    wagered: 3760,
+    prize: 25,
+  },
 ];
 
 export default function Home() {
   const [copied, setCopied] = useState(false);
 
+  const sortedLeaderboard = [...leaderboard].sort(
+    (a, b) => b.wagered - a.wagered
+  );
+
+  const money = (amount) => `$${amount.toLocaleString("en-US")}`;
+
   async function copyPromo() {
     try {
-      await navigator.clipboard.writeText(SITE.promo);
+      await navigator.clipboard.writeText(OFFER.promoCode);
+
       setCopied(true);
-      setTimeout(() => setCopied(false), 1500);
+
+      setTimeout(() => {
+        setCopied(false);
+      }, 1500);
     } catch {
       setCopied(false);
     }
@@ -38,11 +85,13 @@ export default function Home() {
     <main>
       <div className="noise" />
 
-      {/* NAVBAR */}
+      {/* ================= NAVBAR ================= */}
+
       <header className="header">
         <nav className="container navbar">
           <a href="#home" className="logo">
             <img src="/jackbets-logo.png" alt="JackBets" />
+
             <span>
               JACK<span>BETS</span>
             </span>
@@ -68,7 +117,8 @@ export default function Home() {
         </nav>
       </header>
 
-      {/* HERO */}
+      {/* ================= HERO ================= */}
+
       <section className="hero container" id="home">
         <div className="heroGrid" />
 
@@ -111,7 +161,7 @@ export default function Home() {
             </div>
 
             <div>
-              <strong>JACKBETS</strong>
+              <strong>{OFFER.promoCode}</strong>
               <span>PROMO CODE</span>
             </div>
 
@@ -124,6 +174,7 @@ export default function Home() {
 
         <div className="heroVisual">
           <div className="orangeGlow" />
+
           <div className="ring ringOne" />
           <div className="ring ringTwo" />
 
@@ -135,28 +186,33 @@ export default function Home() {
 
           <div className="floatingCard cardOne">
             <small>FEATURED</small>
-            <strong>FORTUNEJACK</strong>
+
+            <strong>{OFFER.casino}</strong>
+
             <span>UP TO 100 FREE SPINS</span>
           </div>
 
           <div className="floatingCard cardTwo">
             <small>PROMO CODE</small>
-            <strong>JACKBETS</strong>
+
+            <strong>{OFFER.promoCode}</strong>
           </div>
         </div>
       </section>
 
-      {/* MOVING TICKER */}
+      {/* ================= TICKER ================= */}
+
       <div className="ticker">
         <div>
-          ✦ JACKBETS &nbsp;&nbsp; ✦ FORTUNEJACK &nbsp;&nbsp; ✦ LIVE ON KICK
-          &nbsp;&nbsp; ✦ EXCLUSIVE REWARDS &nbsp;&nbsp; ✦ COMMUNITY &nbsp;&nbsp;
-          ✦ NO-WAGER FREE SPINS &nbsp;&nbsp; ✦ JACKBETS &nbsp;&nbsp; ✦
-          FORTUNEJACK &nbsp;&nbsp; ✦ LIVE ON KICK
+          ✦ JACKBETS &nbsp;&nbsp; ✦ {OFFER.casino} &nbsp;&nbsp; ✦ LIVE ON KICK
+          &nbsp;&nbsp; ✦ EXCLUSIVE REWARDS &nbsp;&nbsp; ✦ COMMUNITY
+          &nbsp;&nbsp; ✦ NO-WAGER FREE SPINS &nbsp;&nbsp; ✦ JACKBETS
+          &nbsp;&nbsp; ✦ {OFFER.casino} &nbsp;&nbsp; ✦ LIVE ON KICK
         </div>
       </div>
 
-      {/* OFFER */}
+      {/* ================= OFFER ================= */}
+
       <section className="section container" id="offers">
         <SectionHeading
           number="01"
@@ -168,19 +224,23 @@ export default function Home() {
           <div className="offerGlow" />
 
           <div className="casinoHeader">
-            <div className="casinoLogo">FJ</div>
+            <div className="casinoLogo">{OFFER.casinoShort}</div>
 
             <div>
               <small>FEATURED CASINO</small>
-              <h3>FORTUNEJACK</h3>
+              <h3>{OFFER.casino}</h3>
             </div>
 
-            <span className="exclusiveBadge">JACKBETS EXCLUSIVE</span>
+            <span className="exclusiveBadge">
+              JACKBETS EXCLUSIVE
+            </span>
           </div>
 
           <div className="offerMain">
             <div className="offerCopy">
-              <span className="orangeLabel">NO-WAGER FREE SPINS</span>
+              <span className="orangeLabel">
+                NO-WAGER FREE SPINS
+              </span>
 
               <h2>
                 Deposit more.
@@ -190,14 +250,15 @@ export default function Home() {
 
               <p>
                 Register using the JackBets partner link and use promo code{" "}
-                <strong>JACKBETS</strong> to qualify for the current
-                FortuneJack promotion.
+                <strong>{OFFER.promoCode}</strong> to qualify for the current{" "}
+                {OFFER.casino} promotion.
               </p>
             </div>
 
             <div className="promoBox">
               <small>YOUR PROMO CODE</small>
-              <strong>JACKBETS</strong>
+
+              <strong>{OFFER.promoCode}</strong>
 
               <button onClick={copyPromo}>
                 {copied ? "COPIED ✓" : "COPY CODE"}
@@ -205,47 +266,37 @@ export default function Home() {
             </div>
           </div>
 
+          {/* OFFER TIERS */}
+
           <div className="offerTiers">
-            <div className="tier">
-              <div>
-                <span>DEPOSIT</span>
-                <strong>$50</strong>
-              </div>
+            {OFFER.tiers.map((tier) => (
+              <div className="tier" key={tier.deposit}>
+                <div>
+                  <span>DEPOSIT</span>
+                  <strong>${tier.deposit}</strong>
+                </div>
 
-              <div className="spinAmount">
-                <b>50</b>
-                <span>
-                  NO-WAGER
-                  <br />
-                  FREE SPINS
-                </span>
-              </div>
-            </div>
+                <div className="spinAmount">
+                  <b>{tier.spins}</b>
 
-            <div className="tier">
-              <div>
-                <span>DEPOSIT</span>
-                <strong>$100</strong>
+                  <span>
+                    NO-WAGER
+                    <br />
+                    FREE SPINS
+                  </span>
+                </div>
               </div>
-
-              <div className="spinAmount">
-                <b>100</b>
-                <span>
-                  NO-WAGER
-                  <br />
-                  FREE SPINS
-                </span>
-              </div>
-            </div>
+            ))}
           </div>
 
           <a
-            href={SITE.register}
+            href={OFFER.registerUrl}
             target="_blank"
             rel="noreferrer"
             className="claimButton"
           >
             <span>REGISTER & CLAIM OFFER</span>
+
             <b>↗</b>
           </a>
 
@@ -256,7 +307,83 @@ export default function Home() {
         </div>
       </section>
 
-      {/* STREAM */}
+      {/* ================= HOW TO CLAIM ================= */}
+
+<section className="claimStepsSection">
+  <div className="section container">
+
+    <SectionHeading
+      number="02"
+      small="HOW IT WORKS"
+      title="Claim Your Reward"
+    />
+
+    <div className="claimSteps">
+
+      <div className="claimStep">
+        <span>01</span>
+
+        <div className="stepIcon">↗</div>
+
+        <h3>REGISTER</h3>
+
+        <p>
+          Create your FortuneJack account using the official
+          JackBets registration link.
+        </p>
+
+        <a
+          href={OFFER.registerUrl}
+          target="_blank"
+          rel="noreferrer"
+        >
+          REGISTER NOW →
+        </a>
+      </div>
+
+
+      <div className="claimStep featuredStep">
+        <span>02</span>
+
+        <div className="stepIcon">$</div>
+
+        <h3>DEPOSIT</h3>
+
+        <p>
+          Use promo code <strong>{OFFER.promoCode}</strong> and
+          deposit $50 or $100 according to the promotion terms.
+        </p>
+
+        <div className="miniPromo">
+          {OFFER.promoCode}
+        </div>
+      </div>
+
+
+      <div className="claimStep">
+        <span>03</span>
+
+        <div className="stepIcon">★</div>
+
+        <h3>CLAIM</h3>
+
+        <p>
+          If eligible, claim the applicable no-wager free spins
+          associated with your qualifying deposit.
+        </p>
+
+        <strong className="rewardText">
+          UP TO 100 FREE SPINS
+        </strong>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+      {/* ================= STREAM ================= */}
+
       <section className="streamSection" id="stream">
         <div className="section container">
           <SectionHeading
@@ -274,7 +401,10 @@ export default function Home() {
             >
               <div className="scanLine" />
 
-              <img src="/jackbets-logo.png" alt="JackBets stream" />
+              <img
+                src="/jackbets-logo.png"
+                alt="JackBets stream"
+              />
 
               <div className="playButton">
                 <span>▶</span>
@@ -287,12 +417,15 @@ export default function Home() {
 
               <div className="streamBottom">
                 <strong>JACKBETS</strong>
+
                 <span>KICK.COM/JACKBETSS</span>
               </div>
             </a>
 
             <div className="streamContent">
-              <span className="orangeLabel">WATCH • CHAT • JOIN</span>
+              <span className="orangeLabel">
+                WATCH • CHAT • JOIN
+              </span>
 
               <h2>
                 Be part of
@@ -305,7 +438,11 @@ export default function Home() {
                 announcements, promotions and updates.
               </p>
 
-              <a href={SITE.kick} target="_blank" rel="noreferrer">
+              <a
+                href={SITE.kick}
+                target="_blank"
+                rel="noreferrer"
+              >
                 OPEN KICK CHANNEL <b>↗</b>
               </a>
 
@@ -325,37 +462,51 @@ export default function Home() {
         </div>
       </section>
 
-      {/* LEADERBOARD */}
-      <section className="section container" id="leaderboard">
+      {/* ================= LEADERBOARD ================= */}
+
+      <section
+        className="section container"
+        id="leaderboard"
+      >
         <SectionHeading
           number="03"
           small="COMMUNITY RANKINGS"
           title="Leaderboard"
         />
 
+        {/* TOP 3 */}
+
         <div className="podium">
-          <Podium
-            rank="2"
-            username="R***07"
-            wager="$8,920"
-            prize="$150"
-          />
+          {sortedLeaderboard[1] && (
+            <Podium
+              rank="2"
+              username={sortedLeaderboard[1].username}
+              wager={money(sortedLeaderboard[1].wagered)}
+              prize={money(sortedLeaderboard[1].prize)}
+            />
+          )}
 
-          <Podium
-            winner
-            rank="1"
-            username="J***99"
-            wager="$12,450"
-            prize="$250"
-          />
+          {sortedLeaderboard[0] && (
+            <Podium
+              winner
+              rank="1"
+              username={sortedLeaderboard[0].username}
+              wager={money(sortedLeaderboard[0].wagered)}
+              prize={money(sortedLeaderboard[0].prize)}
+            />
+          )}
 
-          <Podium
-            rank="3"
-            username="M***21"
-            wager="$6,580"
-            prize="$100"
-          />
+          {sortedLeaderboard[2] && (
+            <Podium
+              rank="3"
+              username={sortedLeaderboard[2].username}
+              wager={money(sortedLeaderboard[2].wagered)}
+              prize={money(sortedLeaderboard[2].prize)}
+            />
+          )}
         </div>
+
+        {/* FULL LEADERBOARD */}
 
         <div className="leaderboard">
           <div className="leaderRow leaderHead">
@@ -365,12 +516,24 @@ export default function Home() {
             <span>PRIZE</span>
           </div>
 
-          {leaderboard.map((player) => (
-            <div className="leaderRow" key={player[0]}>
-              <span>{player[0]}</span>
-              <span>{player[1]}</span>
-              <span>{player[2]}</span>
-              <span>{player[3]}</span>
+          {sortedLeaderboard.map((player, index) => (
+            <div
+              className="leaderRow"
+              key={player.username}
+            >
+              <span>
+                {String(index + 1).padStart(2, "0")}
+              </span>
+
+              <span>{player.username}</span>
+
+              <span>
+                {money(player.wagered)}
+              </span>
+
+              <span>
+                {money(player.prize)}
+              </span>
             </div>
           ))}
         </div>
@@ -381,8 +544,12 @@ export default function Home() {
         </p>
       </section>
 
-      {/* SOCIALS */}
-      <section className="communitySection" id="community">
+      {/* ================= SOCIALS ================= */}
+
+      <section
+        className="communitySection"
+        id="community"
+      >
         <div className="section container">
           <SectionHeading
             number="04"
@@ -422,8 +589,13 @@ export default function Home() {
 
           <div className="businessCard">
             <div>
-              <span>BUSINESS / PARTNERSHIPS</span>
-              <h2>Let&apos;s work together.</h2>
+              <span>
+                BUSINESS / PARTNERSHIPS
+              </span>
+
+              <h2>
+                Let&apos;s work together.
+              </h2>
             </div>
 
             <a href={`mailto:${SITE.email}`}>
@@ -433,14 +605,21 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 18+ */}
+      {/* ================= RESPONSIBLE GAMBLING ================= */}
+
       <section className="responsible">
         <div className="container responsibleInner">
           <strong>18+</strong>
 
           <div>
-            <span>RESPONSIBLE GAMBLING</span>
-            <h2>Keep it entertainment.</h2>
+            <span>
+              RESPONSIBLE GAMBLING
+            </span>
+
+            <h2>
+              Keep it entertainment.
+            </h2>
+
             <p>
               Set limits, never chase losses, and only gamble with money you
               can afford to lose.
@@ -448,74 +627,106 @@ export default function Home() {
           </div>
         </div>
       </section>
+            {/* RESPONSIBLE GAMBLING ka section yahan end hoga */}
 
-      {/* FOOTER */}
+
+      {/* ================= PARTNER LEADERBOARDS ================= */}
+
+      <section id="leaderboards" className="partnerSection">
+        <div className="container">
+
+          <div className="partnerHeading">
+            <span>JACKBETS REWARDS</span>
+
+            <h2>
+              PARTNER <strong>LEADERBOARDS</strong>
+            </h2>
+
+            <p>
+              Choose a partner to view its live leaderboard and rewards.
+            </p>
+          </div>
+
+          <div className="partnerGrid">
+
+            {/* FORTUNEJACK */}
+            <div className="partnerCard">
+              <div className="partnerTop">
+                <div className="partnerIcon">FJ</div>
+
+                <div>
+                  <span>PARTNER</span>
+                  <h3>FortuneJack</h3>
+                </div>
+              </div>
+
+              <div className="partnerInfo">
+                <span>PROMO CODE</span>
+                <strong>JACKBETS</strong>
+              </div>
+
+              <a
+                href="/leaderboard/fortunejack"
+                className="leaderboardButton"
+              >
+                VIEW LEADERBOARD →
+              </a>
+            </div>
+
+
+            {/* WINOVO */}
+            <div className="partnerCard featuredPartner">
+              <div className="partnerTop">
+                <div className="partnerIcon">W</div>
+
+                <div>
+                  <span>PARTNER</span>
+                  <h3>WINOVO</h3>
+                </div>
+              </div>
+
+              <div className="partnerInfo">
+                <span>LEADERBOARD</span>
+                <strong>LIVE WAGER RANKINGS</strong>
+              </div>
+
+              <a
+                href="/leaderboard/winovo"
+                className="leaderboardButton"
+              >
+                VIEW LEADERBOARD →
+              </a>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* ================= FOOTER ================= */}
+
       <footer>
         <div className="container footer">
           <a href="#home" className="logo">
-            <img src="/jackbets-logo.png" alt="JackBets" />
+            <img
+              src="/jackbets-logo.png"
+              alt="JackBets"
+            />
+
             <span>
               JACK<span>BETS</span>
             </span>
           </a>
 
-          <p>© 2026 JACKBETS • ALL RIGHTS RESERVED</p>
+          <p>
+            © 2026 JACKBETS • ALL RIGHTS RESERVED
+          </p>
 
           <a href="#home" className="backTop">
             BACK TO TOP ↑
           </a>
         </div>
       </footer>
+
     </main>
-  );
-}
-
-function SectionHeading({ number, small, title }) {
-  return (
-    <div className="sectionHeading">
-      <div className="sectionNumber">{number}</div>
-
-      <div>
-        <span>{small}</span>
-        <h2>{title}</h2>
-      </div>
-
-      <div className="headingLine" />
-    </div>
-  );
-}
-
-function Podium({ rank, username, wager, prize, winner }) {
-  return (
-    <div className={`podiumCard ${winner ? "winner" : ""}`}>
-      <span className="rank">
-        {winner ? "♛ " : "#"}
-        {rank}
-      </span>
-
-      <strong>{username}</strong>
-      <b>{wager}</b>
-      <small>{prize} PRIZE</small>
-    </div>
-  );
-}
-
-function SocialCard({ icon, name, text, url }) {
-  return (
-    <a
-      className="socialCard"
-      href={url}
-      target="_blank"
-      rel="noreferrer"
-    >
-      <div className="socialIcon">{icon}</div>
-
-      <div>
-        <span>{name}</span>
-        <strong>{text}</strong>
-      </div>
-
-      <i>↗</i>
-    </a>
   );
 }
